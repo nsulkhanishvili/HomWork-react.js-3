@@ -1,11 +1,12 @@
 import Button from './Button';
 import {useEffect, useRef, useState} from "react";
+import TodoItem from './TodoItem';
 
 const _todoItems = [
-    {id: 1, text: "text1", complieted: false},
-    {id: 2, text: "text2", complieted: true},
-    {id: 3, text: "text3", complieted: false},
-    {id: 4, text: "text4", complieted: true}
+    {id: 1, text: "text1", completed: false},
+    {id: 2, text: "text2", completed: true},
+    {id: 3, text: "text3", completed: false},
+    {id: 4, text: "text4", completed: true}
 ]
 
 export default function TodoApp() {
@@ -20,7 +21,7 @@ export default function TodoApp() {
         let todoItem ={
              id: Date.now(), 
              text: inputValue, 
-             complieted: false 
+             completed: false 
         };
         setInputValue('');
         setTodoItems([...todoItems, todoItem])
@@ -33,7 +34,7 @@ export default function TodoApp() {
      function chacking(id) {
         const changeItems = todoItems.map(items => {
             if (items.id === id) {
-                items.complieted = !items.complieted
+                items.completed = !items.completed
             }
             return items
 
@@ -64,15 +65,14 @@ export default function TodoApp() {
                 {
                     todoItems.map((items, index) => {
                         return(
-                            <li key={index}>
-                                <input 
-                                    type="checkbox" 
-                                    checked={items.complieted}
-                                    onChange={() => chacking(items.id)} 
-                                />
-                                <span> {items.text} </span>
-                                <Button text="delete" type="reset"  onClick={() => handleDeleteClick(items.id)}/>
-                            </li>
+                            <TodoItem  
+                                key={index} 
+                                items={items} 
+                                onChangePassed={chacking}
+                                id={items.id}
+                                text={items.text}
+                                completed={items.completed}
+                                deleteBtn={handleDeleteClick}/>
                         )
                     })
                 }
